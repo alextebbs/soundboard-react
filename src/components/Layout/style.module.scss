@@ -1,0 +1,24 @@
+.header {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  height: var(--header-height);
+  background: white(0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid black(0.1);
+  box-shadow: inset 0px -1px 0px white(0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+.wrapper {
+  margin-top: 12px;
+  max-width: 375px;
+  margin: 0px auto;
+  padding-top: 10px;
+  margin-bottom: 72px;
+}

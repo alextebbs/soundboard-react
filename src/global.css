@@ -1,0 +1,12 @@
+:root {
+  --header-height: 82px;
+  --bubble-color: #e6e5eb;
+  --bubble-height: 34px;
+}
+
+body {
+  margin: 0px;
+  padding: 0px;
+  font-family: sans-serif;
+  padding-top: var(--header-height);
+}

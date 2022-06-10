@@ -1,0 +1,70 @@
+.message {
+  background: transparent;
+  border: none;
+  display: block;
+  position: relative;
+  text-align: left;
+  height: auto;
+  margin-left: 12px;
+  margin-right: 12px;
+  margin-bottom: 10px;
+  padding-left: 34px;
+  width: 90%;
+}
+
+.avatar {
+  position: absolute;
+  left: 0px;
+  bottom: -2px;
+  width: 64px;
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  background: #555;
+  background-size: contain;
+  z-index: 10;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+  }
+}
+
+.author {
+  padding-left: 18px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: 0.7em;
+  color: #888;
+}
+
+.bubble {
+  background: var(--bubble-color);
+  color: #111;
+  font-weight: 400;
+  border-radius: 16px;
+  font-size: 15px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-left: 12px;
+  padding-right: 15px;
+  line-height: 20px;
+  position: relative;
+  z-index: 10;
+  display: inline-block;
+
+  &.isPlayable {
+    background: darken(#e6e5eb, 10%);
+  }
+}
+
+.photo {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.photo img {
+  width: 100%;
+  display: block;
+}
