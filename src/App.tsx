@@ -43,6 +43,7 @@ function App() {
     }
 
     let newMessage: Message = {
+      id: "",
       text: newText,
       author: newAuthor as Author,
       type: newType,

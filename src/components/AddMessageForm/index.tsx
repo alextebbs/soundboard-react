@@ -1,5 +1,5 @@
 import { AddMessageFormProps, MessageType, Author } from "../../types";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { nanoid } from "nanoid";
 import s from "./style.module.scss";
 

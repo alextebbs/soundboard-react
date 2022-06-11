@@ -40,7 +40,7 @@ export enum Author {
 }
 
 export interface Message {
-  id?: string;
+  id: string;
   author: Author;
   type: MessageType;
   date: Date;

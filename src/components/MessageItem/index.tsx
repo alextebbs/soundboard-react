@@ -37,7 +37,7 @@ const MessageItem: React.FC<MessageItemProps> = (props: MessageItemProps) => {
     setReactsActive(true);
   };
 
-  const showReactsLongPress = useLongPress(showReacts, 200);
+  const showReactsLongPress = useLongPress(showReacts, 400);
 
   const addReact = async (reactToEdit: string) => {
     const currentReactValue = reacts[reactToEdit];
