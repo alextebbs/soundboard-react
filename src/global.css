@@ -1,12 +1,25 @@
 :root {
   --header-height: 82px;
-  --bubble-color: #e6e5eb;
+  --bubble-color: #26252a;
+  --bubble-color-text: #fff;
   --bubble-height: 34px;
+  --blue: #0083f9;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0px;
   padding: 0px;
   font-family: sans-serif;
-  padding-top: var(--header-height);
+  background: #000;
+  /* touch-action: none; */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-text-size-adjust: none;
 }

@@ -9,7 +9,12 @@
   margin-right: 12px;
   margin-bottom: 10px;
   padding-left: 34px;
-  width: 90%;
+  max-width: 85%;
+
+  &[data-reactsActive="true"] {
+    position: relative;
+    z-index: 100;
+  }
 }
 
 .avatar {
@@ -31,16 +36,36 @@
 }
 
 .author {
-  padding-left: 18px;
+  padding-left: 14px;
   padding-top: 4px;
-  padding-bottom: 4px;
-  font-size: 0.7em;
+  padding-bottom: 3px;
+  font-size: 0.65em;
   color: #888;
+}
+
+.reactsUnderlay {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(0px);
+  bottom: 0px;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 20;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s;
+
+  [data-reactsactive="true"] & {
+    opacity: 1;
+    backdrop-filter: blur(6px);
+    pointer-events: all;
+  }
 }
 
 .bubble {
   background: var(--bubble-color);
-  color: #111;
+  color: var(--bubble-color-text);
   font-weight: 400;
   border-radius: 16px;
   font-size: 15px;
@@ -50,21 +75,287 @@
   padding-right: 15px;
   line-height: 20px;
   position: relative;
-  z-index: 10;
-  display: inline-block;
+  z-index: 30;
+  display: inline-flex;
+  transition: transform 0.2s;
+  cursor: pointer;
 
-  &.isPlayable {
-    background: darken(#e6e5eb, 10%);
+  [data-reactsActive="true"] & {
+    transform: scale(1.03);
+  }
+
+  &[data-type="photo"] {
+    width: 100%;
+    padding: 0px;
+    background: none;
+
+    img {
+      width: 100%;
+      border-radius: 16px;
+      display: block;
+    }
+
+    .corner svg {
+      display: none;
+    }
+  }
+
+  [data-reactsActive="false"] &:hover {
+    background: lighten(#262529, 10%);
+
+    .corner svg path {
+      fill: lighten(#262529, 10%);
+    }
+  }
+
+  [data-reactsActive="false"] &:active {
+    transform: scale(0.97);
+  }
+
+  &[data-type="audio"] {
+    padding-left: 34px;
+  }
+
+  .corner svg {
+    position: absolute;
+    bottom: 0px;
+    left: -3px;
+    width: 16px;
+
+    path {
+      fill: var(--bubble-color);
+    }
   }
 }
 
-.photo {
-  width: 100%;
-  overflow: hidden;
-  border-radius: 16px;
+.playButton {
+  border: 2px solid var(--blue);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  transform: translateY(-50%);
+
+  &:after {
+    content: "";
+    border: 7px solid transparent;
+    border-left-color: var(--blue);
+    border-right-width: 0px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    position: absolute;
+    top: 50%;
+    left: calc(50% + 1px);
+    transform: translate(-50%, -50%);
+  }
 }
 
-.photo img {
-  width: 100%;
-  display: block;
+.reactsBubble {
+  position: absolute;
+  z-index: 30;
+  background: darken(#3a3a3c, 3%);
+  display: flex;
+  height: 46px;
+  border-radius: 23px;
+  align-items: center;
+  margin-top: 2px;
+  top: -38px;
+  right: -30px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s;
+  transform: translateX(20px);
+
+  [data-reactsactive="true"] & {
+    opacity: 1;
+    transform: translateX(0px);
+    pointer-events: all;
+  }
+
+  .react {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
+    margin-right: 4px;
+    position: relative;
+    transition-property: opacity, transform;
+    transition-duration: 0.2s;
+    opacity: 0;
+    transform: scale(0.8);
+    cursor: pointer;
+    height: 38px;
+    width: 38px;
+
+    .reactCircle {
+      height: 38px;
+      width: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s;
+
+      &:active {
+        transform: scale(0.9);
+      }
+    }
+
+    [data-reactsactive="true"] & {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    @for $i from 1 through 6 {
+      &:nth-child(#{$i}) {
+        transition-delay: #{0.05 * $i}s;
+      }
+    }
+
+    &:hover {
+      .reactCircle {
+        background: var(--blue);
+      }
+
+      svg path {
+        fill: #fff;
+      }
+    }
+
+    &:nth-child(1):hover {
+      svg path {
+        fill: #f36099;
+      }
+    }
+
+    svg {
+      height: 50%;
+    }
+
+    &:nth-child(1),
+    &:nth-child(3),
+    &:nth-child(4) {
+      svg {
+        position: relative;
+        top: 1px;
+      }
+    }
+
+    &:nth-child(6) {
+      svg {
+        position: relative;
+        left: 1px;
+      }
+    }
+  }
+
+  .reactCount {
+    bottom: 100%;
+    margin-bottom: 12px;
+    position: absolute;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 12px;
+    font-family: monospace;
+  }
+
+  svg path {
+    fill: #808080;
+  }
+}
+
+.reactsActiveFlair {
+  &:before,
+  &:after {
+    content: "";
+    background: darken(#3a3a3c, 3%);
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.2s;
+    transition-delay: 0s;
+
+    [data-reactsactive="true"] & {
+      transition-delay: 0s;
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  &:before {
+    height: 14px;
+    width: 14px;
+    top: -12px;
+    right: -10px;
+  }
+
+  &:after {
+    height: 8px;
+    width: 8px;
+    top: 5px;
+    right: -14px;
+  }
+}
+
+.popularReact {
+  position: absolute;
+  top: -22px;
+  right: -22px;
+  height: 34px;
+  width: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  background: var(--bubble-color);
+  border: 1px solid black;
+  transition: opacity 0.2s;
+
+  [data-reactsactive="true"] & {
+    opacity: 0;
+  }
+
+  &:after,
+  &:before {
+    content: "";
+    position: absolute;
+    background: var(--bubble-color);
+    border-radius: 50%;
+  }
+
+  &:after {
+    height: 10px;
+    width: 10px;
+    bottom: -1px;
+    right: -1px;
+  }
+
+  &:before {
+    height: 6px;
+    width: 6px;
+    bottom: -6px;
+    right: -6px;
+  }
+
+  &[data-reactype="loved"] {
+    svg {
+      position: relative;
+      top: 1px;
+
+      path {
+        fill: #f36099;
+      }
+    }
+  }
+
+  svg {
+    height: 50%;
+
+    path {
+      fill: #808080;
+    }
+  }
 }

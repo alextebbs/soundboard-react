@@ -16,6 +16,7 @@ import { Message, MessageType, Author } from "./types";
 import MessageItem from "./components/MessageItem";
 import AddMessageForm from "./components/AddMessageForm";
 import Layout from "./components/Layout";
+import arrayShuffle from "array-shuffle";
 
 function App() {
   const messageCollectionReference = collection(db, "messages");
@@ -23,6 +24,9 @@ function App() {
   const [messages, setMessages] = useState(Array<Message>());
 
   const formElementRef = useRef<HTMLFormElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const authorInputRef = useRef<HTMLSelectElement>(null);
+  const textInputRef = useRef<HTMLTextAreaElement>(null);
 
   const createMessage = async (
     newType: MessageType,
@@ -39,17 +43,18 @@ function App() {
     }
 
     let newMessage: Message = {
-      id: "",
       text: newText,
       author: newAuthor as Author,
       type: newType,
       fileRef: newFileDownloadURL,
+      date: new Date(),
       reacts: {
         disliked: 0,
         liked: 0,
         loved: 0,
         questioned: 0,
         emphasized: 0,
+        laughedat: 0,
       },
     };
 
@@ -57,22 +62,31 @@ function App() {
 
     newMessage.id = docRef.id;
 
-    if (formElementRef.current) {
-      formElementRef.current.reset();
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+
+    if (textInputRef.current) {
+      textInputRef.current.value = "";
     }
 
     setMessages([...messages, newMessage]);
   };
 
-  const updateMessage = async (updatedMessage: Message, dislikes: number) => {
-    const userDoc = doc(db, "messages", updatedMessage.id);
-    await updateDoc(userDoc, { reacts: { disliked: dislikes + 1 } });
+  const addReact = async (updatedMessage: any, reactToEdit: string) => {
+    const messageDoc = doc(db, "messages", updatedMessage.id);
+
+    const currentReactValue = updatedMessage.reacts[reactToEdit];
+    const updatedReacts = updatedMessage.reacts;
+    updatedReacts[reactToEdit] = currentReactValue + 1;
+
+    await updateDoc(messageDoc, { reacts: updatedReacts });
 
     const updatedMessages = messages.map((message) => {
       if (message.id === updatedMessage.id) {
         return {
           ...message,
-          reacts: { ...message.reacts, disliked: dislikes + 1 },
+          reacts: updatedReacts,
         };
       } else {
         return message;
@@ -85,29 +99,29 @@ function App() {
   useEffect(() => {
     const getMessages = async () => {
       const data = await getDocs(messageCollectionReference);
-
-      setMessages(
+      const shuffled = arrayShuffle(
         data.docs.map((doc) => ({ ...doc.data(), id: doc.id } as Message))
       );
+
+      setMessages(shuffled);
     };
 
     getMessages();
-  });
+  }, []);
 
   return (
     <Layout>
       {messages.map((message) => {
         return (
-          <MessageItem
-            key={nanoid()}
-            updateMessage={updateMessage}
-            message={message}
-          />
+          <MessageItem key={nanoid()} addReact={addReact} message={message} />
         );
       })}
 
       <AddMessageForm
         formElementRef={formElementRef}
+        fileInputRef={fileInputRef}
+        textInputRef={textInputRef}
+        authorInputRef={authorInputRef}
         createMessage={createMessage}
       />
     </Layout>
