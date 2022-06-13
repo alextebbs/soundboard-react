@@ -1,6 +1,6 @@
 import { RefObject } from "react";
 
-export type MessageType = "text" | "audio" | "photo";
+export type MessageType = "text" | "audio" | "photo" | "video";
 
 export enum Author {
   other = "Christopher T.",
@@ -22,7 +22,7 @@ export enum Author {
   ryanS = "Spiritual Ryan",
   ryanC = "Cookie Ryan",
   ray = "Ray",
-  eli = "Eli Pussy",
+  eli = "Eli",
   chrisV = "CV",
   ben = "Nurse Ben",
   chrisL = "Landy",
@@ -36,6 +36,7 @@ export enum Author {
   charles = "Chuck C",
   kyle = "Graceland",
   ryanM = "Murgs",
+  jamey = "Reliable Jamey",
   tip = "Some Random Tip",
 }
 

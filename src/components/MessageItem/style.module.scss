@@ -84,12 +84,19 @@
     transform: scale(1.03);
   }
 
-  &[data-type="photo"] {
+  &[data-type="photo"],
+  &[data-type="video"] {
     width: 100%;
     padding: 0px;
     background: none;
 
     img {
+      width: 100%;
+      border-radius: 16px;
+      display: block;
+    }
+
+    video {
       width: 100%;
       border-radius: 16px;
       display: block;

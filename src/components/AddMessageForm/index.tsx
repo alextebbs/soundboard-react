@@ -1,5 +1,5 @@
 import { AddMessageFormProps, MessageType, Author } from "../../types";
-import { useState } from "react";
+import React, { useState } from "react";
 import { nanoid } from "nanoid";
 import s from "./style.module.scss";
 
@@ -8,22 +8,35 @@ const AddMessageForm: React.FC<AddMessageFormProps> = (
 ) => {
   const [newType, setNewType] = useState<MessageType>("audio");
   const [newText, setNewText] = useState("");
-  const [newAuthor, setNewAuthor] = useState<Author>(
-    "Christopher T." as Author
-  );
+  const [newAuthor, setNewAuthor] = useState<Author>("other" as Author);
   const [newFileUpload, setNewFileUpload] = useState<File>();
 
   const changeEditForm = (type: MessageType) => {
     setNewType(type);
   };
 
+  const checkFileSize = (event: any) => {
+    if (event.target.files[0].size > 2097152) {
+      alert("Filesize must be under 2MB");
+      event.target.value = "";
+    }
+  };
+
   return (
-    <form ref={props.formElementRef} className={s.addForm}>
+    <form
+      ref={props.formElementRef}
+      className={s.addForm}
+      onSubmit={(e) => {
+        e.preventDefault();
+        props.createMessage(newType, newText, newAuthor, newFileUpload);
+      }}
+    >
       <h2>Add a new message</h2>
 
       <label>
         <div className={s.label}>Message Type</div>
         <select
+          required
           value={newType}
           onChange={(e) => {
             changeEditForm(e.target.value as MessageType);
@@ -40,18 +53,29 @@ const AddMessageForm: React.FC<AddMessageFormProps> = (
         <label>
           <div className={s.fileInput}>
             <input
+              required
               type="file"
               id="message_file"
               ref={props.fileInputRef}
               accept={newType === "audio" ? ".m4a" : ".jpg, .png"}
               onChange={(event) => {
                 if (!event.target.files) return;
+                checkFileSize(event);
                 setNewFileUpload(event.target.files[0]);
               }}
             />
           </div>
           <div className={s.note}>
-            {newType === "audio" && <>Audio files must be in .m4a format</>}
+            {newType === "audio" && (
+              <>
+                Audio files must be in .m4a format
+                <br />
+                You can convert here:{" "}
+                <a href="https://cloudconvert.com/caf-to-m4a">
+                  https://cloudconvert.com/caf-to-m4a
+                </a>
+              </>
+            )}
             {newType === "photo" && <>Photos must be in .jpg or .png format</>}
           </div>
         </label>
@@ -61,6 +85,7 @@ const AddMessageForm: React.FC<AddMessageFormProps> = (
         <label>
           <div className={s.label}>Message Text</div>
           <textarea
+            required
             placeholder="Message"
             id="message_text"
             ref={props.textInputRef}
@@ -77,6 +102,7 @@ const AddMessageForm: React.FC<AddMessageFormProps> = (
       <label>
         <div className={s.label}>Sent by</div>
         <select
+          required
           value={newAuthor}
           id="message_author"
           ref={props.authorInputRef}
@@ -99,14 +125,7 @@ const AddMessageForm: React.FC<AddMessageFormProps> = (
       </label>
 
       <div>
-        <button
-          type="button"
-          onClick={() => {
-            props.createMessage(newType, newText, newAuthor, newFileUpload);
-          }}
-        >
-          Send
-        </button>
+        <button type="submit">Send</button>
       </div>
     </form>
   );

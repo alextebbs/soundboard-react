@@ -114,6 +114,12 @@ const MessageItem: React.FC<MessageItemProps> = (props: MessageItemProps) => {
           />
         )}
 
+        {props.message.type === "video" && (
+          <video controls src={props.message.fileRef}>
+            <source src={props.message.fileRef} />
+          </video>
+        )}
+
         <div className={s.corner}>
           <Corner />
         </div>
