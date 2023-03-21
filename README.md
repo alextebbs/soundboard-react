@@ -11,6 +11,8 @@ badge relating to the react style with the highest count.
 Messages are shuffled together on page load. Intention is to create a UI that is
 familiar to someone used to interacting with an iOS text thread.
 
+[Live demo](https://soundboard-demo-73142.web.app/)
+
 Technologies used in this app:
 
 - [React](https://react.dev/)
