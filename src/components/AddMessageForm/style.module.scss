@@ -85,3 +85,16 @@
     }
   }
 }
+
+.githubLink {
+  text-align: center;
+  margin-top: 24px;
+  text-decoration: none;
+  color: #888;
+  display: block;
+  font-size: 13px;
+
+  &:hover {
+    color: #fff;
+  }
+}
