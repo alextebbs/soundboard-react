@@ -9,3 +9,4 @@ import { firebaseConfig } from "./firebase-secrets";
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore();
 export const storage = getStorage();
+export const db_id = "messages-test";

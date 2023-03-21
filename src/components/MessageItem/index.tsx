@@ -3,7 +3,7 @@ import s from "./style.module.scss";
 import { ReactComponent as Corner } from "./bubble-corner.svg";
 import { useState, useEffect } from "react";
 import useLongPress from "../../utils/useLongPress";
-import { db } from "../../firebase-config";
+import { db, db_id } from "../../firebase-config";
 import { updateDoc, doc } from "firebase/firestore";
 
 import { ReactComponent as EmphasizedIcon } from "./icons/emphasized.svg";
@@ -26,7 +26,7 @@ const MessageItem: React.FC<MessageItemProps> = (props: MessageItemProps) => {
 
   const [popular, setPopular] = useState<string>();
 
-  const messageDoc = doc(db, "messages", props.message.id);
+  const messageDoc = doc(db, db_id, props.message.id);
 
   const playAudio = (url: any) => {
     var audio = new Audio(url);

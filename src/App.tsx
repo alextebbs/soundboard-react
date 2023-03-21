@@ -1,7 +1,7 @@
 import "./global.css";
 
 import { useState, useEffect, useRef } from "react";
-import { db, storage } from "./firebase-config";
+import { db, storage, db_id } from "./firebase-config";
 import {
   addDoc,
   collection,
@@ -19,7 +19,7 @@ import Layout from "./components/Layout";
 import arrayShuffle from "array-shuffle";
 
 function App() {
-  const messageCollectionReference = collection(db, "messages");
+  const messageCollectionReference = collection(db, db_id);
 
   const [messages, setMessages] = useState(Array<Message>());
 
@@ -75,7 +75,7 @@ function App() {
   };
 
   const addReact = async (updatedMessage: any, reactToEdit: string) => {
-    const messageDoc = doc(db, "messages", updatedMessage.id);
+    const messageDoc = doc(db, db_id, updatedMessage.id);
 
     const currentReactValue = updatedMessage.reacts[reactToEdit];
     const updatedReacts = updatedMessage.reacts;

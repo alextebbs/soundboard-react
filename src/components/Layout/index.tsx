@@ -29,7 +29,7 @@ const Layout: React.FC<Props> = ({ children }) => {
             </div>
           ))}
         </div>
-        <h1>For The Boys</h1>
+        <h1>Messages</h1>
       </div>
 
       <div className={s.wrapper}>{children}</div>
