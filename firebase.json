@@ -1,7 +1,7 @@
 {
   "hosting": {
     "public": "build",
-    "site": "soundboard-demo-73142",
+    "site": "soundboard-b0ad1",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
